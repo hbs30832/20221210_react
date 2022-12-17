@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import Todos from "./components/todos/Todos";
+import Styled from "./components/Styled";
+import Todos from "./components/todoReducer/Todos";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Todos />);

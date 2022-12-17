@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Todo from "./components/Todo";
+import "./index.scss";
 
 function App() {
   const [count, setCount] = useState(0);
