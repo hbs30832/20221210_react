@@ -11,7 +11,7 @@ function NavBar() {
   return (
     <Container>
       <NavItem>
-        <StyledLink to="home">
+        <StyledLink to="/">
           <MdOutlineHome size={24} />
         </StyledLink>
       </NavItem>

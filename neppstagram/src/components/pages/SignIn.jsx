@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { singIn } from "../../api/admin";
+import { getCurrentUser, singIn } from "../../api/admin";
+import { useUserIdDispatch } from "../../data/auth";
 import { useInputs } from "../../hook/useInputs";
 import AdminForm from "../admin/AdminForm";
 import { Button } from "../common/button";
@@ -14,12 +15,18 @@ function SignIn() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (e) => {
+  const dispatch = useUserIdDispatch();
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    singIn(inputs).then((res) => {
-      window.localStorage.setItem("access-token", res.data.data.token);
-      navigate("/");
-    });
+
+    await singIn(inputs);
+
+    const user = await getCurrentUser();
+
+    dispatch(user.id);
+
+    navigate("/");
   };
 
   const toSignUp = () => {
