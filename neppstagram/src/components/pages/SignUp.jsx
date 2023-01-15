@@ -1,3 +1,5 @@
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { postUser } from "../../api/admin";
 import { useInputs } from "../../hook/useInputs";
@@ -16,12 +18,27 @@ function SignUp() {
 
   const active = name !== "" && name !== email && password !== "";
 
+  const navigate = useNavigate();
+
+  const signUpMutate = useMutation(postUser, {
+    onMutate: (form) => {
+      console.log(form);
+    },
+    onSuccess: () => {
+      alert("회원가입에 성공했습니다.");
+      navigate("/signin");
+    },
+    onError: (err) => {
+      alert(err.response.data.message);
+    },
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!active) return;
 
-    postUser(inputs).then((res) => console.log(res));
+    signUpMutate.mutate({ name, email, password });
   };
 
   return (

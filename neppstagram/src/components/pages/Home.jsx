@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getCurrentUser, getPosts } from "../../api/admin";
 import { useUserIdDispatch } from "../../data/auth";
@@ -9,6 +10,15 @@ function Home() {
   const [postList, setPostList] = useState([]);
   const [page, setPage] = useState(1);
   const [isLast, setIsLast] = useState(false);
+
+  const { data, isLoading } = useQuery("posts", () => getPosts(page), {
+    onSuccess: (data) => {
+      console.log("데이터를 받아오는데 성공했습니다!", data);
+    },
+    onError: (err) => {
+      alert(err.response.data.message);
+    },
+  });
 
   const dispatch = useUserIdDispatch();
 
@@ -23,9 +33,11 @@ function Home() {
     });
   }, [page]);
 
+  if (isLoading) return <div>로딩 중</div>;
+
   return (
     <Container>
-      {postList.map((post) => (
+      {data.map((post) => (
         <Post key={post.id} post={post} />
       ))}
       {!isLast && <BtnMore onClick={() => setPage(page + 1)}>더 보기</BtnMore>}

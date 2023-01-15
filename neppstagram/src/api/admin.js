@@ -16,15 +16,11 @@ if (token) {
  * @returns
  */
 export const postUser = async (form) => {
-  try {
-    const result = await axios.post("users", {
-      ...form,
-    });
+  const result = await axios.post("users", {
+    ...form,
+  });
 
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
+  return result;
 };
 
 export const singIn = async (form) => {
@@ -50,8 +46,16 @@ export const patchProfile = (form) => {
   return axios.patch("users/profile", form);
 };
 
-export const postPost = (form) => {
-  return axios.post("posts", form);
+export const getUserById = async (id) => {
+  const { data } = await axios.get("/users/" + id);
+
+  return data.data;
+};
+
+export const postPost = async (form) => {
+  const { data } = await axios.post("posts", form);
+
+  return data.data;
 };
 
 export const getPosts = async (page = 1) => {
@@ -65,15 +69,31 @@ export const getPostById = async (id) => {
   return data.data;
 };
 
-export const getComments = async (postId, page = 1) => {
+export const getPostsByUserId = async (id) => {
+  const { data } = await axios.get("/posts/author/" + id);
+
+  return data.data;
+};
+
+export const getComments = async (postId, page) => {
   const { data } = await axios.get("/comments", {
     params: {
-      page,
       postId,
+      page,
     },
   });
 
   return data.data;
+};
+
+export const searchUser = async (name) => {
+  const { data } = await axios.get("/users/search", {
+    params: {
+      name,
+    },
+  });
+
+  return data;
 };
 
 export const postComment = async (form) => {
