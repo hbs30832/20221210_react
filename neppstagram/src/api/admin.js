@@ -88,9 +88,7 @@ export const getComments = async (postId, page) => {
 
 export const searchUser = async (name) => {
   const { data } = await axios.get("/users/search", {
-    params: {
-      name,
-    },
+    name,
   });
 
   return data;

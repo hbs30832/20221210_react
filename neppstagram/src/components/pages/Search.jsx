@@ -18,7 +18,11 @@ function Search() {
   useEffect(() => {
     const fetchUsers = async () => {
       if (input === "") return;
+
+      console.log(input);
       const data = await searchUser(debounceSearch);
+
+      console.log(data);
 
       setUsers(data.data);
     };
